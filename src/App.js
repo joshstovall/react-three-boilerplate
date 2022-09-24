@@ -9,7 +9,9 @@ import './style.css'
 function App() {
 
   const [inputs, setInputs] = useState({
-    satellites:[]
+    satellites:[],
+    users:[],
+    interferers:[]
   });
   const [outputs, setOutputs] = useState('00');
   // const [data_tp, setOutputs] = useState('00');
@@ -138,6 +140,14 @@ setInputs(all_data)
   // render() {
   return (
     <div>
+
+      satalites are green
+      users are blue
+      interferers are red
+
+      <br/>
+
+      Select an option
       <select onChange={updateTestData}>
         <option value='00'>00</option>
         <option value='01'>01</option>

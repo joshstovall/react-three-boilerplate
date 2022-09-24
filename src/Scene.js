@@ -4,16 +4,21 @@ import React, { useEffect, useRef, useState } from "react";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as THREE from "three";
 
-import {createEarth} from "./helpers/createEarth";
-import {createSatellites} from "./helpers/createSatellites";
+import { createEarth } from "./helpers/createEarth";
 
+import { createSatellites } from "./helpers/createSatellites";
+import { createInterferers } from "./helpers/createInterferers";
+import { createUsers } from "./helpers/createUsers";
+
+import { clearScene } from "./helpers/clearScene";
 
 // import  text  from './data/inputs/00.txt'; // Relative path to your File
 
 // console.log(text); 
 
-function Scene(  { inputs, outputs }) {
+function Scene({ inputs, outputs }) {
 
+  const [scene] = useState(new THREE.Scene())
 
   const [input_data, setInputData] = useState({})
   const [output_data, setOutputData] = useState({})
@@ -30,13 +35,24 @@ function Scene(  { inputs, outputs }) {
   const height = "100%";
 
 
+
+  async function setupScene(scene) {
+
+    await clearScene(scene)
+
+
+    console.log("USERS HERE", inputs.users)
+    await setSatellites(inputs.satellites)
+    await setUsers(inputs.users)
+    await setInterferers(inputs.interferers)
+
+  }
+
   useEffect(() => {
-    
 
     // const ss = inputs.satellites
 
-    setSatellites(inputs.satellites)
-
+    setupScene(scene)
 
   }, [inputs, outputs]);
 
@@ -48,15 +64,16 @@ function Scene(  { inputs, outputs }) {
   useEffect(() => {
 
 
-    
-    var scene = new THREE.Scene();
+
     scene.background = new THREE.Color("black");
 
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-   
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+    camera.position.set(10000,0,0); // Set position like this
+    camera.lookAt(new THREE.Vector3(0,0,0)); // Set look at coordinate like this
+    
     camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix(); 
-   
+    camera.updateProjectionMatrix();
+
     // var renderer = new THREE.WebGLRenderer();
 
     // renderer.setSize( window.innerWidth, window.innerHeight );
@@ -68,8 +85,8 @@ function Scene(  { inputs, outputs }) {
     // this.height = this.container.clientHeight;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
     let controls = new OrbitControls(camera, renderer.domElement);
 
 
@@ -97,7 +114,7 @@ function Scene(  { inputs, outputs }) {
 
     mountRef.current.appendChild(renderer.domElement);
 
-   
+
     // camera.position.z = 5;
 
 
@@ -106,18 +123,18 @@ function Scene(  { inputs, outputs }) {
 
 
 
-    
+
 
 
     // add light 
 
-    let spotLight = new THREE.SpotLight(0xffffff, 0.25);
-    spotLight.position.set(45, 50, 15);
-    camera.add(spotLight);
-    // this.spotLight = spotLight;
+    // let spotLight = new THREE.SpotLight(0xffffff, 0.25);
+    // spotLight.position.set(45, 50, 15);
+    // camera.add(spotLight);
+    // // this.spotLight = spotLight;
 
-    let ambLight = new THREE.AmbientLight(0x333333);
-    ambLight.position.set(5, 3, 5);
+    let ambLight = new THREE.AmbientLight(0x333333, 3);
+    // ambLight.position.set(5, 3, 5);
     camera.add(ambLight);
 
 
@@ -126,10 +143,13 @@ function Scene(  { inputs, outputs }) {
 
 
 
+    // todo make these ayncrounus
 
 
     // await 
-    createSatellites(scene,satellites)
+    createSatellites(scene, satellites)
+    createUsers(scene, users)
+    createInterferers(scene, interferers)
 
 
 
@@ -149,7 +169,7 @@ function Scene(  { inputs, outputs }) {
     animate();
 
     return () => mountRef.current.removeChild(renderer.domElement);
-  }, [satellites]);
+  }, [interferers]);
 
   return (
     <div ref={mountRef}>
