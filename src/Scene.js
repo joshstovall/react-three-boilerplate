@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
+
+import  text  from './data/inputs/00.txt'; // Relative path to your File
+
+console.log(text); 
+
+
 class Scene extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +20,7 @@ class Scene extends Component {
     this.setupScene = this.setupScene.bind(this);
     this.destroyContext = this.destroyContext.bind(this);
     this.handleWindowResize = this.handleWindowResize.bind(this);
+    // this.inputs = this.handleWindowResize.bind(this);
   }
 
   componentWillMount() {
@@ -21,6 +28,9 @@ class Scene extends Component {
   }
 
   componentDidMount() {
+
+
+    // alert("yay")
     this.setupScene();
   }
 
