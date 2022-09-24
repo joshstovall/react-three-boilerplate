@@ -24,10 +24,10 @@ export async function createBeams(scene, beams) {
         let c = 0xffffff
 
         switch (s.color) {
-            case 'A': c = 0xff0000; break;
-            case 'B': c = 0x00ff00; break;
-            case 'C': c = 0x0000ff; break;
-            case 'D': c = 0xf0f000; break;
+            case 'A': c = 0xff0000; break; // red
+            case 'B': c = 0x00ff00; break; // green
+            case 'C': c = 0x0000ff; break; // blue
+            case 'D': c = 0xff7518; break; // orange
             default: break;
         }
 

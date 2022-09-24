@@ -13,7 +13,7 @@ export async function createInterferers(scene, interferers) {
 
         // convert EFCF to lat/long/alt
         // var xyz = projector.project(...s);
-        var xyz = projector.project(s.x, s.y, s.z);
+        var xyz = projector.unproject(s.x, s.y, s.z);
 
         // phoenix az
         // Latitude 33.448376
@@ -29,15 +29,20 @@ export async function createInterferers(scene, interferers) {
         const pos = calcPosFromLatLonRad(lat, lon, radius)
 
         // TOOD: add height (altitude of satalite...)
+
+
         var geometry = new THREE.BoxGeometry(1, 1, 1);
         var material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
         var cube = new THREE.Mesh(geometry, material);
         cube.scale.set(300,300,300)
 
-        cube.name = s.id;
+        cube.name = 'interferer_'+s.id;
 
         scene.add(cube);
         cube.position.set(...pos);
+
+
+        
 
     }
 

@@ -14,11 +14,14 @@ export async function createSatellites(scene, sats) {
 
         // console.log(s)
 
+        console.log(s)
         // convert EFCF to lat/long/alt
         // var xyz = projector.project(...s);
-        var xyz = projector.project(s.x, s.y, s.z);
+        var xyz = projector.unproject(s.x, s.y, s.z);
 
 
+
+        console.log(xyz, 'sat xyz')
         // phoenix az
         // Latitude 33.448376
         // Longitude - 112.074036
@@ -29,7 +32,7 @@ export async function createSatellites(scene, sats) {
 
 
         // console.log('altitude', alt/1.609) // convert to miles
-        let radius = 3958.8 + 1000 //add height (altitude of satalite...)
+        let radius = 3958.8 + 500 //add height (altitude of satalite...)
 
         const pos = calcPosFromLatLonRad(lat, lon, radius)
         // console.log(pos)
@@ -40,6 +43,8 @@ export async function createSatellites(scene, sats) {
 
         scene.add(cube);
         cube.scale.set(300,300,300);
+
+        console.log(pos)
         cube.position.set(...pos);
 
         // click callback

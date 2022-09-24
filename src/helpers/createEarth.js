@@ -5,6 +5,7 @@ export function createEarth(scene) {
 
     console.log('creating the earth ... 🌎')
 
+    // create earth
     let sphere = new THREE.SphereGeometry(3958.8, 300, 300);
     let material = new THREE.MeshPhongMaterial({
       map: new THREE.TextureLoader().load("/Assets/2_no_clouds_4k.jpg"),
@@ -12,17 +13,24 @@ export function createEarth(scene) {
       bumpScale: 0.005,
       specularMap: THREE.ImageUtils.loadTexture("/Assets/water_4k.png"),
       specular: new THREE.Color("grey"),
+      transparent:true,
+      opacity:0.8
     });
 
 
     let mesh = new THREE.Mesh(sphere, material);
-    // scene.add(mesh);
-    sphere = new THREE.SphereGeometry(3958.8, 300, 300);
-    material = new THREE.MeshPhongMaterial({
-      map: new THREE.TextureLoader().load("/Assets/fair_clouds_4k.png"),
-      transparent: true,
-    });
-    mesh = new THREE.Mesh(sphere, material);
+    scene.add(mesh);
+
+
+
+
+    // // create clouds
+    // sphere = new THREE.SphereGeometry(3958.8, 300, 300);
+    // material = new THREE.MeshPhongMaterial({
+    //   map: new THREE.TextureLoader().load("/Assets/fair_clouds_4k.png"),
+    //   transparent: true,
+    // });
+    // mesh = new THREE.Mesh(sphere, material);
     // scene.add(mesh);
 
 

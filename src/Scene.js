@@ -70,7 +70,7 @@ function Scene({ inputs, outputs }) {
 
     scene.background = new THREE.Color("black");
 
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 15000);
     camera.position.set(10000,0,0); // Set position like this
     camera.lookAt(new THREE.Vector3(0,0,0)); // Set look at coordinate like this
     
@@ -150,9 +150,12 @@ function Scene({ inputs, outputs }) {
 
 
     // await 
+    // if(satellites.length)
+    
     createSatellites(scene, satellites)
     createUsers(scene, users)
-    createInterferers(scene, interferers)
+    // createInterferers(scene, interferers)
+
     createBeams(scene, beams)
 
 
