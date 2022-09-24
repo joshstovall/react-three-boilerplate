@@ -1,3 +1,37 @@
-canvas{
-  width:100%
+body{
+  background: black;
+  margin: 0;
+}
+
+canvas{  
+  background: black;
+  width:100%;
+}
+.metadata,.about,.options{
+  padding: 1em;
+  color:greenyellow;
+  font-family: monospace;
+  list-style-type: none;
+  margin:0;
+
+}
+.metadata{
+  position:absolute;
+ 
+}
+.about{
+  position:absolute;
+  bottom:0;
+
+}
+
+.options{
+  position:fixed;
+  top:0;
+  right:0;
+
+}
+
+a{
+  color:inherit
 }

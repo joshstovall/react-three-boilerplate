@@ -9,52 +9,23 @@ export async function createSatellites(scene, sats) {
 
     for (let i = 0; i < sats.length; i++) {
 
-        // console.log("SAT")
-        const s = sats[i]
-
-        // console.log(s)
-
-        console.log(s)
-        // convert EFCF to lat/long/alt
-        // var xyz = projector.project(...s);
-        var xyz = projector.unproject(s.x, s.y, s.z);
-
-
-
-        console.log(xyz, 'sat xyz')
-        // phoenix az
-        // Latitude 33.448376
-        // Longitude - 112.074036
+        const s = sats[i];
+            var xyz = projector.unproject(s.x, s.y, s.z);
 
         let lat = xyz[0]
         let lon = xyz[1]
-        let alt = xyz[2]// altitude in meters
 
-
-        // console.log('altitude', alt/1.609) // convert to miles
-        let radius = 3958.8 + 500 //add height (altitude of satalite...)
+        let radius = 3958.8 + 500
 
         const pos = calcPosFromLatLonRad(lat, lon, radius)
-        // console.log(pos)
+
         var geometry = new THREE.BoxGeometry(1, 1, 1);
         var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         var cube = new THREE.Mesh(geometry, material);
-        cube.name = 'sat_'+s.id;
-
-        scene.add(cube);
-        cube.scale.set(300,300,300);
-
-        console.log(pos)
+        cube.scale.set(200,200,200);
         cube.position.set(...pos);
-
-        // click callback
-        cube.callback = function() { 
-
-            console.log('you clicked sat ')
-            console.log( this.name ); 
-        
-        
-        }
+        cube.name = 'sat_'+s.id;
+        scene.add(cube);
 
     }
 
