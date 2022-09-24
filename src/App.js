@@ -94,22 +94,13 @@ for(let i=0;i<objs.length;i++){
         const interferers = withoutComments.replace(/^sat.*\n?/gm, '').replace(/^user.*\n?/gm, '');
 
 
-        console.log("here are the sats", sats)
-        console.log("here are the users", users)
-        console.log("here are the interferers", interferers)
-
-
-
-        // sataliate data structure
-        
-        
-
+        // console.log("here are the sats", sats)
+        // console.log("here are the users", users)
+        // console.log("here are the interferers", interferers)
 
         let formated_sats = await formatData(sats)
         let formated_users = await formatData(users)
         let formated_interferers = await formatData(interferers)
-
-console.log(formated_sats)
 
 
 let all_data = {
@@ -125,7 +116,7 @@ console.log(all_data)
 
 
 setInputs(all_data)
-
+  
 
 
 
