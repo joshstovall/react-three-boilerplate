@@ -28,7 +28,7 @@ export async function createUsers(scene, users) {
         var material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
         var cube = new THREE.Mesh(geometry, material);
         cube.scale.set(100,100,100)
-        cube.name = s.id;
+        cube.name = 'user_' + s.id;
 
         scene.add(cube);
         cube.position.set(...pos);

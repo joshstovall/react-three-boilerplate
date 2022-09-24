@@ -29,18 +29,27 @@ export async function createSatellites(scene, sats) {
 
 
         // console.log('altitude', alt/1.609) // convert to miles
-        let radius = 3958.8 + 500 //add height (altitude of satalite...)
+        let radius = 3958.8 + 1000 //add height (altitude of satalite...)
 
         const pos = calcPosFromLatLonRad(lat, lon, radius)
         // console.log(pos)
         var geometry = new THREE.BoxGeometry(1, 1, 1);
         var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         var cube = new THREE.Mesh(geometry, material);
-        cube.name = s.id;
+        cube.name = 'sat_'+s.id;
 
         scene.add(cube);
         cube.scale.set(300,300,300);
         cube.position.set(...pos);
+
+        // click callback
+        cube.callback = function() { 
+
+            console.log('you clicked sat ')
+            console.log( this.name ); 
+        
+        
+        }
 
     }
 

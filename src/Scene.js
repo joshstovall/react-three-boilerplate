@@ -9,6 +9,7 @@ import { createEarth } from "./helpers/createEarth";
 import { createSatellites } from "./helpers/createSatellites";
 import { createInterferers } from "./helpers/createInterferers";
 import { createUsers } from "./helpers/createUsers";
+import { createBeams } from "./helpers/createBeams";
 
 import { clearScene } from "./helpers/clearScene";
 
@@ -26,6 +27,7 @@ function Scene({ inputs, outputs }) {
   const [satellites, setSatellites] = useState([])
   const [interferers, setInterferers] = useState([])
   const [users, setUsers] = useState([])
+  const [beams, setBeams] = useState([])
 
 
   // setup stuffs
@@ -41,10 +43,11 @@ function Scene({ inputs, outputs }) {
     await clearScene(scene)
 
 
-    console.log("USERS HERE", inputs.users)
+    console.log("BEAMS HERE", inputs.beams)
     await setSatellites(inputs.satellites)
     await setUsers(inputs.users)
     await setInterferers(inputs.interferers)
+    await setBeams(inputs.beams)
 
   }
 
@@ -150,6 +153,7 @@ function Scene({ inputs, outputs }) {
     createSatellites(scene, satellites)
     createUsers(scene, users)
     createInterferers(scene, interferers)
+    createBeams(scene, beams)
 
 
 
@@ -169,7 +173,7 @@ function Scene({ inputs, outputs }) {
     animate();
 
     return () => mountRef.current.removeChild(renderer.domElement);
-  }, [interferers]);
+  }, [beams]);
 
   return (
     <div ref={mountRef}>

@@ -11,36 +11,69 @@ function App() {
   const [inputs, setInputs] = useState({
     satellites:[],
     users:[],
-    interferers:[]
+    interferers:[],
+    beams:[]
   });
+
   const [outputs, setOutputs] = useState('00');
   // const [data_tp, setOutputs] = useState('00');
 
+
+  const formatBeams = async (e) => {
+
+
+    console.log("FORMAT BEAMS HERE")
+    console.log(e)
+
+let beams = []
+
+
+
+
+let objs = e.split(/\r?\n/); // split at linebreaks, to array
+objs.pop() // remove the last element (empty string)
+for(let i=0;i<objs.length;i++){
+
+let obj = objs[i]
+let obj_to_arr = obj.split(' ') // split the string at ' ' spaces
+
+
+// console.log(obj_to_arr)
+
+
+let obj_json = {
+    id:obj_to_arr[3], // beam 2
+    satellite:obj_to_arr[1], // id of satalite
+    user:obj_to_arr[5], // id of user
+    color:obj_to_arr[7], // color
+    // z:0
+  }
+
+beams.push(obj_json)
+}
+
+
+
+
+return beams
+
+
+
+
+
+  }
   const formatData = async (e) => {
 
 
     let data  = []
 
-
     // console.log('unformatted: ')
     // console.log(e)
 
 
-
-
-
         let objs = e.split(/\r?\n/); // split at linebreaks, to array
-
-        // split_at_linebreak = 
         objs.pop() // remove the last element (empty string)
-
-        // console.log("ARRAY YAY", objs)
-
-        
-
-
 for(let i=0;i<objs.length;i++){
-
 
   let obj = objs[i]
   let obj_to_arr = obj.split(' ') // split the string at ' ' spaces
@@ -52,20 +85,8 @@ for(let i=0;i<objs.length;i++){
     
   }
   data.push(obj_json)
-  // data.push
 }
 
-
-        
-//     data = 
-//     [
-//   {
-//     id:1,
-//     x:0,
-//     y:0,
-//     z:0
-//   }
-// ]
 
     return data
   }
@@ -80,7 +101,7 @@ for(let i=0;i<objs.length;i++){
     fetch(`./data/inputs/${a}.txt`)
       .then(r => r.text())
       .then(async text => {
-        console.log('text decoded:', text);
+        // console.log('text decoded:', text);
 
 
         // remove the comments from txt data
@@ -95,20 +116,24 @@ for(let i=0;i<objs.length;i++){
         // format all interferers
         const interferers = withoutComments.replace(/^sat.*\n?/gm, '').replace(/^user.*\n?/gm, '');
 
-
-        // console.log("here are the sats", sats)
-        // console.log("here are the users", users)
-        // console.log("here are the interferers", interferers)
-
         let formated_sats = await formatData(sats)
         let formated_users = await formatData(users)
         let formated_interferers = await formatData(interferers)
+
+        // get the output data (beams)
+        fetch(`./data/outputs/${a}.txt`)
+      .then(r => r.text())
+      .then(async beams => {
+
+
+        let formated_beams = await formatBeams(beams)
 
 
 let all_data = {
   satellites:formated_sats,
   users:formated_users,
-  interferers :formated_interferers
+  interferers :formated_interferers,
+  beams:formated_beams
 }
 
 
@@ -118,11 +143,9 @@ console.log(all_data)
 
 
 setInputs(all_data)
-  
 
 
-
-
+      })
 
       });
 
@@ -132,12 +155,15 @@ setInputs(all_data)
   }
 
   useEffect(()=>{
-
-
-    console.log(inputs)
+    // console.log(inputs)
   },setInputs)
 
   // render() {
+
+
+  // todo add author data, website url
+
+  // todo check that users and satalites are being inseted in the correct location
   return (
     <div>
 
@@ -168,23 +194,5 @@ setInputs(all_data)
     </div>
   );
 }
-// }
 
 export default App;
-
-
-
-
-
-// function calcPosFromLatLonRad(lat,lon,radius){
-  
-//   var phi   = (90-lat)*(Math.PI/180);
-//   var theta = (lon+180)*(Math.PI/180);
-
-//   x = -(radius * Math.sin(phi)*Math.cos(theta));
-//   z = (radius * Math.sin(phi)*Math.sin(theta));
-//   y = (radius * Math.cos(phi));
-
-//   return [x,y,z];
-
-// }
